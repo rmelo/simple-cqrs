@@ -1,5 +1,5 @@
 'use strict';
 
-module.exports = (message) => {
-    console.log(message);
+module.exports = {
+    Command: require('./core/command')
 }

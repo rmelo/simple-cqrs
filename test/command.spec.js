@@ -1,7 +1,7 @@
 'use strict';
 
 const expect = require('chai').expect,
-    Command = require('../core/command');
+    { Command } = require('../');
 
 describe('Command', () => {
 
