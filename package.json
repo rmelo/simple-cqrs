@@ -1,0 +1,29 @@
+{
+  "name": "simple-cqrs",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=6.5.0"
+  },
+  "description": "A simple CQRS implementation for node.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha **/*.spec.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rmelo/simple-cqrs.git"
+  },
+  "keywords": [
+    "CQRS"
+  ],
+  "author": "Rodrigo Melo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rmelo/simple-cqrs/issues"
+  },
+  "homepage": "https://github.com/rmelo/simple-cqrs#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.4.1"
+  }
+}
