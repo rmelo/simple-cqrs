@@ -1,6 +1,6 @@
 {
   "name": "simple-cqrs",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "node": ">=6.5.0"
   },
@@ -8,7 +8,7 @@
   "main": "index.js",
   "scripts": {
     "test": "node_modules/.bin/mocha **/*.spec.js",
-    "cover":"node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha -- -R spec **/*.spec.js"
+    "cover": "node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha -- -R spec **/*.spec.js"
   },
   "repository": {
     "type": "git",
