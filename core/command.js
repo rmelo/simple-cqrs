@@ -7,5 +7,4 @@ module.exports = class Command {
         this._type = this.constructor.name;
     }
     get type() { return this._type; }
-    set type(value) { this._type = value; }
 };
