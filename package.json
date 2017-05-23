@@ -7,7 +7,8 @@
   "description": "A simple CQRS implementation for node.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha **/*.spec.js"
+    "test": "node_modules/.bin/mocha **/*.spec.js",
+    "cover":"node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha -- -R spec **/*.spec.js"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,8 @@
   "homepage": "https://github.com/rmelo/simple-cqrs#readme",
   "devDependencies": {
     "chai": "^3.5.0",
+    "coveralls": "^2.13.1",
+    "istanbul": "^0.4.5",
     "mocha": "^3.4.1"
   }
 }
