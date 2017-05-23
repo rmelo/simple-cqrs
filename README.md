@@ -1,4 +1,4 @@
-Number Formatter
+Simple CQRS
 =========
 
 A small and simple library that implements CQRS.
