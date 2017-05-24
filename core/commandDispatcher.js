@@ -1,9 +1,13 @@
 'use strict';
 
-const CommandFactory = require('./commandFactory');
+const
+    CommandFactory = require('./commandFactory'),
+    CommandBus = require('./commandBus')
 
-module.exports = class CommandDispatcher {
+
+module.exports = class CommandDispatcher extends CommandBus {
     constructor(commandFactory = new CommandFactory()) {
+        super();
         this._handlers = new Map();
         this._commandFactory = commandFactory;
     }

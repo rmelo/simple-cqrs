@@ -1,7 +1,7 @@
 'use strict';
 
 const chai = require('chai');
-const { Command, CommandFactory, CommandDispatcher, CoreCommand } = require('../');
+const { Command, CommandFactory, CommandDispatcher, CoreCommand, CommandBus } = require('../');
 
 chai.should();
 
@@ -90,10 +90,27 @@ describe('Core tests', () => {
 
         it('Should register multiple commands and execute them', (done) => {
             dispatcher.register(['firstCommand', 'secondCommand'], (command) => { return command; });
-            dispatcher.send({type:'firstCommand'});
-            dispatcher.send({type:'secondCommand'});
+            dispatcher.send({ type: 'firstCommand' });
+            dispatcher.send({ type: 'secondCommand' });
             done();
         });
 
     })
+
+    describe('CommandBus tests', () => {
+
+        it('Should throw TypeError exception when try to create an abstract Command', (done) => {
+            (() => {
+                const bus = new CommandBus();
+            }).should.throw(TypeError, 'CommandBus is abstract!');
+            done();
+        });
+
+        it('Should create an AzureServiceBus', (done) => {
+            const azureServiceBus = new class AzureServiceBus extends CommandBus { }
+            azureServiceBus.send({});
+            done();
+        });
+
+    });
 });

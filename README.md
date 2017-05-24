@@ -11,8 +11,8 @@ A small and simple library that implements CQRS.
 
 ## Usage
 
-Wait folks!
-How to use it's comming soon. I'm preparing a usage release.
+Hi folks!
+I'm working in a release version, it's coming soon.
 
 
 ## Testsnpm 

@@ -4,5 +4,6 @@ module.exports = {
     Command: require('./core/command'),
     CommandFactory: require('./core/commandFactory'),
     CommandDispatcher: require('./core/commandDispatcher'),
-    CoreCommand: require('./core/coreCommand')
+    CoreCommand: require('./core/coreCommand'),
+    CommandBus: require('./core/commandBus')
 }
