@@ -1,12 +1,15 @@
 'use strict';
 
 const chai = require('chai');
-const { Command, CommandFactory } = require('../');
+const { Command, CommandFactory, CommandDispatcher, CoreCommand } = require('../');
 
 chai.should();
 
 describe('Core tests', () => {
-    describe('Command', () => {
+
+    const coreCommandType = 'coreCommand';
+
+    describe('Command tests', () => {
 
         it('Should throw TypeError exception when try to create an abstract Command', (done) => {
             (() => {
@@ -25,15 +28,64 @@ describe('Core tests', () => {
 
     });
 
-    describe('CommandFactory', (done) => {
-        it('Should create a ShowMessageCoreCommand and set its properties', (done) => {
+    describe('CommandFactory tests', (done) => {
+
+        it('Should create a coreCommand and set its properties', (done) => {
             const factory = new CommandFactory('../core/');
-            const command = factory.create('coreCommand', { message: 'hello!' });
-            command.type.should.eq('ShowMessageCoreCommand');
+            const command = factory.create(coreCommandType, { message: 'hello!' });
+            command.type.should.eq(coreCommandType);
             command.message.should.eq('hello!');
             command.message = 'world!';
             command.message.should.eq('world!');
             done();
         });
+
+        it('Should throw a TypeError when an invalid command', (done) => {
+            (() => {
+                const factory = new CommandFactory('../core/');
+                const command = factory.create('numbCommand');
+            }).should.throw(Error);
+            done();
+        });
     });
+
+    describe('CommandDispatcher tests', () => {
+
+        const dispatcher = new CommandDispatcher();
+
+        it('Should register a command using factory', (done) => {
+            dispatcher.register(coreCommandType, {
+                factory: () =>
+                    new class CoreCommandHandler { handle(command) { } }
+            });
+            done();
+        });
+
+        it('Should register a command using function', (done) => {
+            dispatcher.register('funcCommand', (command) => { return command; });
+            done();
+        });
+
+        it('Should throw an error when try to register a duplicated command', (done) => {
+            (() => { dispatcher.register(coreCommandType, () => { }); })
+                .should.throw(Error, 'Already exists a handler for coreCommand');
+            done();
+        });
+
+        it('Should execute coreCommand', (done) => {
+            dispatcher.send({ type: coreCommandType, message: 'hello!' });
+            done();
+        });
+
+        it('Should execute command using function', (done) => {
+            dispatcher.send({ type: 'funcCommand' });
+            done();
+        });
+
+        it('Should throw an error when try to execute an command without handler', (done) => {
+            (() => { dispatcher.send({ type: 'withoutHandlerCommand' }); })
+                .should.throw(Error, 'There\'s no handler registered for command withoutHandlerCommand');
+            done();
+        });
+    })
 });
