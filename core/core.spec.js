@@ -87,5 +87,13 @@ describe('Core tests', () => {
                 .should.throw(Error, 'There\'s no handler registered for command withoutHandlerCommand');
             done();
         });
+
+        it('Should register multiple commands and execute them', (done) => {
+            dispatcher.register(['firstCommand', 'secondCommand'], (command) => { return command; });
+            dispatcher.send({type:'firstCommand'});
+            dispatcher.send({type:'secondCommand'});
+            done();
+        });
+
     })
 });

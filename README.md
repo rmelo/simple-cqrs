@@ -11,10 +11,10 @@ A small and simple library that implements CQRS.
 
 ## Usage
 
-    Wait folks!
-    How to use it's comming soon. I'm preparing a usage release.
+Wait folks!
+How to use it's comming soon. I'm preparing a usage release.
 
 
-## Tests
+## Testsnpm 
 
   `npm test`
