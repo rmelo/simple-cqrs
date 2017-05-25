@@ -1,9 +1,11 @@
 'use strict';
 
+const { Command, CommandFactory, CommandDispatcher, CoreCommand, CommandBus } = require('./core/commands');
+
 module.exports = {
-    Command: require('./core/command'),
-    CommandFactory: require('./core/commandFactory'),
-    CommandDispatcher: require('./core/commandDispatcher'),
-    CoreCommand: require('./core/coreCommand'),
-    CommandBus: require('./core/commandBus')
+    Command,
+    CommandFactory,
+    CommandDispatcher,
+    CoreCommand,
+    CommandBus
 }

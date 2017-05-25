@@ -1,7 +1,7 @@
 'use strict';
 
 const chai = require('chai');
-const { Command, CommandFactory, CommandDispatcher, CoreCommand, CommandBus } = require('../');
+const { Command, CommandFactory, CommandDispatcher, CoreCommand, CommandBus } = require('./');
 
 chai.should();
 
@@ -31,7 +31,7 @@ describe('Core tests', () => {
     describe('CommandFactory tests', (done) => {
 
         it('Should create a coreCommand and set its properties', (done) => {
-            const factory = new CommandFactory('../core/');
+            const factory = new CommandFactory('../commands');
             const command = factory.create(coreCommandType, { message: 'hello!' });
             command.type.should.eq(coreCommandType);
             command.message.should.eq('hello!');
