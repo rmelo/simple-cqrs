@@ -21,6 +21,8 @@ describe('Events tests', () => {
         it('Should create a json-based event and change it properties', (done) => {
             const event = new MessageDisplayedEvent();
 
+            const creationDate = event;
+
             event.type.should.be.eq('MessageDisplayedEvent');
 
             event.message = 'hello!';
@@ -28,6 +30,7 @@ describe('Events tests', () => {
             event.date = new Date();
 
             event.type.should.be.eq('messageDisplayedEvent');
+            event.date.should.not.be.eq(creationDate);
 
             done();
         });

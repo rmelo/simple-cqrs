@@ -32,7 +32,7 @@ describe('Commands tests', () => {
 
         it('Should create a showMessageCommand and set its properties', (done) => {
             const factory = new CommandFactory(__dirname + '/commands');
-            const command = factory.create(showMessageCommandType, { message: 'hello!' });
+            const command = factory.create(showMessageCommandType, { message: 'hello!', anotherProperty:'hi!' });
             command.type.should.eq(showMessageCommandType);
             command.message.should.eq('hello!');
             command.message = 'world!';
