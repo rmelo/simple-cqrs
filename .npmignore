@@ -3,3 +3,4 @@ examples
 coverage
 .vscode
 .commands.md
+**/test

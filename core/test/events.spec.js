@@ -1,7 +1,8 @@
 'use strict';
 
 const chai = require('chai');
-const { Event, EventFactory, EventBus } = require('./');
+const { Event, EventFactory, EventBus } = require('../events');
+const MessageDisplayedEvent = require('./events/messageDisplayedEvent');
 
 chai.should();
 
@@ -16,22 +17,36 @@ describe('Events tests', () => {
             }).should.throw(TypeError);
             done();
         });
+
+        it('Should create a json-based event and change it properties', (done) => {
+            const event = new MessageDisplayedEvent();
+
+            event.type.should.be.eq('MessageDisplayedEvent');
+
+            event.message = 'hello!';
+            event.type = 'messageDisplayedEvent';
+            event.date = new Date();
+
+            event.type.should.be.eq('messageDisplayedEvent');
+
+            done();
+        });
     });
 
     describe('EventFactory tests', (done) => {
 
+        const factory = new EventFactory(__dirname + '/events');
+
         it('Should create an event and set its properties', (done) => {
-            const factory = new EventFactory('../core/events');
-            const event = factory.create('eventHappenedEvent', { version: 2, who: 'Batman', type: 'eventHappened', date: new Date(), someProperty: 1 });
-            event.version.should.eq(2);
-            event.who.should.eq('Batman');
-            event.type.should.eq('eventHappened');
+            const event = factory.create('messageDisplayedEvent', { version: 1, message: 'Hello!' });
+            event.version.should.eq(1);
+            event.message.should.eq('Hello!');
+            event.type.should.eq('MessageDisplayedEvent');
             done();
         });
 
         it('Should throw a TypeError when an invalid event', (done) => {
             (() => {
-                const factory = new EventFactory('../core/');
                 const command = factory.create('invalidEvent');
             }).should.throw(Error);
             done();

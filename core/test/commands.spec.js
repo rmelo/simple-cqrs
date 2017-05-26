@@ -1,13 +1,13 @@
 'use strict';
 
 const chai = require('chai');
-const { Command, CommandFactory, CommandDispatcher, CoreCommand, CommandBus } = require('./');
+const { Command, CommandFactory, CommandDispatcher, showMessageCommand, CommandBus } = require('../commands');
 
 chai.should();
 
 describe('Commands tests', () => {
 
-    const coreCommandType = 'coreCommand';
+    const showMessageCommandType = 'showMessageCommand';
 
     describe('Command tests', () => {
 
@@ -30,10 +30,10 @@ describe('Commands tests', () => {
 
     describe('CommandFactory tests', (done) => {
 
-        it('Should create a coreCommand and set its properties', (done) => {
-            const factory = new CommandFactory('../core/commands');
-            const command = factory.create(coreCommandType, { message: 'hello!' });
-            command.type.should.eq(coreCommandType);
+        it('Should create a showMessageCommand and set its properties', (done) => {
+            const factory = new CommandFactory(__dirname + '/commands');
+            const command = factory.create(showMessageCommandType, { message: 'hello!' });
+            command.type.should.eq(showMessageCommandType);
             command.message.should.eq('hello!');
             command.message = 'world!';
             command.message.should.eq('world!');
@@ -42,7 +42,7 @@ describe('Commands tests', () => {
 
         it('Should throw a TypeError when an invalid command', (done) => {
             (() => {
-                const factory = new CommandFactory('../core/');
+                const factory = new CommandFactory((__dirname + '/commands'));
                 const command = factory.create('invalidCommand');
             }).should.throw(Error);
             done();
@@ -54,9 +54,9 @@ describe('Commands tests', () => {
         const dispatcher = new CommandDispatcher();
 
         it('Should register a command using factory', (done) => {
-            dispatcher.register(coreCommandType, {
+            dispatcher.register(showMessageCommandType, {
                 factory: () =>
-                    new class CoreCommandHandler { handle(command) { } }
+                    new class showMessageCommandHandler { handle(command) { } }
             });
             done();
         });
@@ -67,13 +67,13 @@ describe('Commands tests', () => {
         });
 
         it('Should throw an error when try to register a duplicated command', (done) => {
-            (() => { dispatcher.register(coreCommandType, () => { }); })
-                .should.throw(Error, 'Already exists a handler for coreCommand');
+            (() => { dispatcher.register(showMessageCommandType, () => { }); })
+                .should.throw(Error, 'Already exists a handler for showMessageCommand');
             done();
         });
 
-        it('Should execute coreCommand', (done) => {
-            dispatcher.send({ type: coreCommandType, message: 'hello!' });
+        it('Should execute showMessageCommand', (done) => {
+            dispatcher.send({ type: showMessageCommandType, message: 'hello!' });
             done();
         });
 
