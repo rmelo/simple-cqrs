@@ -5,7 +5,7 @@ const { Command, CommandFactory, CommandDispatcher, CoreCommand, CommandBus } = 
 
 chai.should();
 
-describe('Core tests', () => {
+describe('Commands tests', () => {
 
     const coreCommandType = 'coreCommand';
 
@@ -31,7 +31,7 @@ describe('Core tests', () => {
     describe('CommandFactory tests', (done) => {
 
         it('Should create a coreCommand and set its properties', (done) => {
-            const factory = new CommandFactory('../commands');
+            const factory = new CommandFactory('../core/commands');
             const command = factory.create(coreCommandType, { message: 'hello!' });
             command.type.should.eq(coreCommandType);
             command.message.should.eq('hello!');
@@ -43,7 +43,7 @@ describe('Core tests', () => {
         it('Should throw a TypeError when an invalid command', (done) => {
             (() => {
                 const factory = new CommandFactory('../core/');
-                const command = factory.create('numbCommand');
+                const command = factory.create('invalidCommand');
             }).should.throw(Error);
             done();
         });
@@ -99,16 +99,16 @@ describe('Core tests', () => {
 
     describe('CommandBus tests', () => {
 
-        it('Should throw TypeError exception when try to create an abstract Command', (done) => {
+        it('Should throw TypeError exception when try to create an abstract CommandBus', (done) => {
             (() => {
                 const bus = new CommandBus();
             }).should.throw(TypeError, 'CommandBus is abstract!');
             done();
         });
 
-        it('Should create an AzureServiceBus', (done) => {
-            const azureServiceBus = new class AzureServiceBus extends CommandBus { }
-            azureServiceBus.send({});
+        it('Should create an specialized CommandBus', (done) => {
+            const bus = new class SpecializedCommandBus extends CommandBus { }
+            bus.send({});
             done();
         });
 
