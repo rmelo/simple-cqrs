@@ -12,12 +12,6 @@ describe('Events tests', () => {
         it('Should throw TypeError exception when try to create an abstract Event', (done) => {
             (() => {
                 const event = new Event();
-                event.type = 'doSomeAction';
-                event.version = 1;
-                event.type.should.eq('doSomeAction');
-                event.version.should.eq(1);
-                event.date.should.be.a('date');
-                event.date = new Date();
                 done();
             }).should.throw(TypeError);
             done();
@@ -28,9 +22,10 @@ describe('Events tests', () => {
 
         it('Should create an event and set its properties', (done) => {
             const factory = new EventFactory('../core/events');
-            const event = factory.create('eventHappenedEvent', { version: 2, who: 'Batman' });
+            const event = factory.create('eventHappenedEvent', { version: 2, who: 'Batman', type: 'eventHappened', date: new Date() });
             event.version.should.eq(2);
             event.who.should.eq('Batman');
+            event.type.should.eq('eventHappened');
             done();
         });
 
