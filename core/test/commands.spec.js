@@ -32,7 +32,7 @@ describe('Commands tests', () => {
 
         it('Should create a showMessageCommand and set its properties', (done) => {
             const factory = new CommandFactory(__dirname + '/commands');
-            const command = factory.create(showMessageCommandType, { message: 'hello!', anotherProperty:'hi!' });
+            const command = factory.create(showMessageCommandType, { message: 'hello!', anotherProperty: 'hi!' });
             command.type.should.eq(showMessageCommandType);
             command.message.should.eq('hello!');
             command.message = 'world!';
@@ -92,6 +92,20 @@ describe('Commands tests', () => {
             dispatcher.register(['firstCommand', 'secondCommand'], (command) => { return command; });
             dispatcher.send({ type: 'firstCommand' });
             dispatcher.send({ type: 'secondCommand' });
+            done();
+        });
+
+        it('Should throw an Error when try to register an object', (done) => {
+            (() => {
+                dispatcher.register({}, (command) => { return command; });
+            }).should.throw(Error, 'The type parameter must be string or array.');
+            done();
+        });
+
+        it('Should throw an Error when try to dispatch an object without factory property', (done) => {
+            (() => {
+                dispatcher.register({}, (command) => { return command; });
+            }).should.throw(Error, 'The type parameter must be string or array.');
             done();
         });
 

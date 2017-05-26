@@ -20,15 +20,15 @@ module.exports = class CommandDispatcher extends CommandBus {
             type.forEach(function (t) {
                 this.register(t, handler);
             }, this);
+        } else {
+            throw Error('The type parameter must be string or array.');
         }
     }
     send(command) {
         const defination = this._handlers.get(command.type);
         if (typeof defination === 'object') {
-            if (defination.factory) {
-                const handler = defination.factory();
-                handler.handle(command);
-            }
+            const handler = defination.factory();
+            handler.handle(command);
         } else if (typeof defination === 'function') {
             defination(command);
         } else {
