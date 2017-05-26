@@ -22,7 +22,7 @@ describe('Events tests', () => {
 
         it('Should create an event and set its properties', (done) => {
             const factory = new EventFactory('../core/events');
-            const event = factory.create('eventHappenedEvent', { version: 2, who: 'Batman', type: 'eventHappened', date: new Date() });
+            const event = factory.create('eventHappenedEvent', { version: 2, who: 'Batman', type: 'eventHappened', date: new Date(), someProperty: 1 });
             event.version.should.eq(2);
             event.who.should.eq('Batman');
             event.type.should.eq('eventHappened');
