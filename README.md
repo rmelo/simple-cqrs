@@ -1,29 +1,50 @@
-Simple CQRS
-=========
+<img src="https://raw.githubusercontent.com/rmelo/simple-cqrs/master/assets/logo-md.png" >
 
-[![Build Status](https://travis-ci.org/rmelo/simple-cqrs.svg?branch=master)](https://travis-ci.org/rmelo/simple-cqrs) [![Coverage Status](https://coveralls.io/repos/github/rmelo/simple-cqrs/badge.svg?branch=master)](https://coveralls.io/github/rmelo/simple-cqrs?branch=master)
+Simple, small and flexible CQRS for [node](http://nodejs.org).
 
-A small and simple library that implements CQRS.
-Currently, it's implements only commands context, but It'll implements the other parts of CQRS in the future.
+
+
+[![NPM Version][npm-image]][npm-url]
+[![Downloads][downloads-image]][npm-url]
+[![Build Status][travis-image]][travis-url]
+[![Coverage Status][coveralls-image]][coveralls-url]
+
+
 
 ## Installation
 
-  `npm install simple-cqrs`
+```bash
+$ npm install simple-cqrs
+```
 
-## Usage
+## Quick Start
 
+```js
+const {CommandDispatcher} = require('simple-cqrs');
 
+const dispatcher = new CommandDispacther();
+
+disptacher.register('showMessageCommand', (command)=>{
+    console.log(command.message);
+});
+
+dispatcher.send({type:'showMessageCommand', message:'Hello World!'});
+//Prints: Hello World!
+
+```
+
+## Docs
 ### Commands
 
 You can use a json-based style command or a type-based command, the only requirement is to set the type of command:
 
-```javascript
+```js
 //json-based
 const command = {type:'showMessageCommand', message:'Hello World!'};
 ```
 
 When you use type-based command, you don't have to set the type manually. It's automatically set by Command class. The type will be the name of the subclass.
-```javascript
+```js
 //type-based using Ecma6
 const Command = require('simple-cqrs').Command;
 
@@ -39,7 +60,7 @@ class ShowMessageCommand extends Command{
 
 You can convert a json-based command to a type-based command using the CommandFactory class. Sometimes it's needed when you receive a serialized command from a channel like a service bus.
 
-```javascript
+```js
 const CommandFactory = require('simple-cqrs').CommandFactory;
 
 const factory = new CommandFactory();
@@ -59,7 +80,7 @@ You can implement a command bus by extending it. e.g: You can send a command thr
 
 If you just want to handle/execute a command in the same proccess, you can use the CommandDispatcher implementation:
 
-```javascript
+```js
 const CommandDispatcher = require('simple-cqrs').CommandDispatcher;
 const dispatcher = new CommandDispatcher();
 ```  
@@ -67,7 +88,7 @@ const dispatcher = new CommandDispatcher();
 The first thing you must do is register a handler for a command. 
 You can register a function to handles the command, or a command handler type-based:
 
-```javascript
+```js
 //Registering a function as a handler of the ShowMessageCommand. 
 dispatcher.register('ShowMessageCommand', (command)=>{
   console.log(command);
@@ -81,7 +102,7 @@ dispatcher.register('ShowMessageCommand', {factory:()=>{
 
 You can't register a command twice. But you can register multiple commands for a handler:
 
-```javascript
+```js
 //Registering multiple commands for a function.
 dispatcher.register(['ShowMessageCommand','ClearConsoleCommand'], (command)=>{
   switch(command.type){
@@ -105,3 +126,13 @@ To run the test suite, first install the dependencies, then run npm test:
   `npm test`
 
 That's it for all.
+
+[travis-image]: https://travis-ci.org/rmelo/simple-cqrs.svg?branch=master
+[travis-url]: https://travis-ci.org/rmelo/simple-cqrs
+[coveralls-image]: https://coveralls.io/repos/github/rmelo/simple-cqrs/badge.svg?branch=master
+[coveralls-url]: https://coveralls.io/github/rmelo/simple-cqrs?branch=master
+
+
+[npm-url]: https://npmjs.org/package/simple-cqrs
+[downloads-image]: http://img.shields.io/npm/dm/simple-cqrs.svg
+[npm-image]: http://img.shields.io/npm/v/simple-cqrs.svg
