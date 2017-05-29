@@ -1,7 +1,7 @@
 'use strict';
 
 const chai = require('chai');
-const { Event, EventFactory, EventBus } = require('../events');
+const { Event, EventFactory, EventBus, EventHandler } = require('../events');
 const MessageDisplayedEvent = require('./events/messageDisplayedEvent');
 
 chai.should();
@@ -54,6 +54,43 @@ describe('Events tests', () => {
             }).should.throw(Error);
             done();
         });
+    });
+
+    describe('EventHandler tests', () => {
+
+        const factory = new EventFactory(__dirname + '/events');
+        const wrongHandler = new class WrongEventHandler extends EventHandler { };
+
+        it('Should throw an Error when register null event', (done) => {
+            (() => {
+                wrongHandler.register('', () => { });
+            }).should.throw(Error, 'Event must be non-null');
+            done();
+        });
+
+        it('Should throw an Error when register null function', (done) => {
+            (() => {
+                wrongHandler.register('event', null);
+            }).should.throw(Error, 'Func must be a non-null function');
+            done();
+        });
+
+        it('Should register an event and dispatche it', (done) => {
+            let result = 0;
+            let r2 = false;
+            const messageHandler = new class MessageEventHandler extends EventHandler {
+                constructor() {
+                    super();
+                    this.register('messageDisplayedEvent', (event) => {
+                        result = true;
+                    });
+                }
+            };
+            messageHandler.handle({ type: 'messageDisplayedEvent', message: 'hello!' });
+            result.should.be.true;
+            done();
+        });
+
     });
 
     describe('EventBus tests', () => {

@@ -3,5 +3,6 @@
 module.exports = {
     Event: require('./event'),
     EventFactory: require('./eventFactory'),
-    EventBus: require('./eventBus')
+    EventBus: require('./eventBus'),
+    EventHandler: require('./eventHandler')
 }
