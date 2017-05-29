@@ -9,7 +9,9 @@ Simple, small and flexible CQRS for [node](http://nodejs.org).
 [![Build Status][travis-image]][travis-url]
 [![Coverage Status][coveralls-image]][coveralls-url]
 
+## Status
 
+Including events module... finish this week!
 
 ## Installation
 
