@@ -75,9 +75,9 @@ describe('Events tests', () => {
             done();
         });
 
-        it('Should register an event and dispatche it', (done) => {
-            let result = 0;
-            let r2 = false;
+        it('Should register some events, get events and dispatche then', (done) => {
+            let result = false;
+            let result2 = false;
             const messageHandler = new class MessageEventHandler extends EventHandler {
                 constructor() {
                     super();
@@ -88,6 +88,8 @@ describe('Events tests', () => {
             };
             messageHandler.handle({ type: 'messageDisplayedEvent', message: 'hello!' });
             result.should.be.true;
+            messageHandler.events.should.lengthOf(1);
+            messageHandler.events.should.contains('messageDisplayedEvent');
             done();
         });
 
