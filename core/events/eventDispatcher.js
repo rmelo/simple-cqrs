@@ -1,6 +1,6 @@
 'use strict';
 
-const EventBus = require('./EventBus');
+const EventBus = require('./eventBus');
 
 module.exports = class EventDispatcher extends EventBus {
     constructor() {
