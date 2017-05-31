@@ -1,10 +1,14 @@
 'use strict';
 
-const chai = require('chai');
-const { Event, EventFactory, EventBus, EventHandler, EventDispatcher } = require('../events');
-const MessageDisplayedEvent = require('./events/messageDisplayedEvent');
+const
+    chai = require('chai'),
+    sinon = require('sinon');
 
 chai.should();
+chai.use(require('sinon-chai'));
+
+const { Event, EventFactory, EventBus, EventHandler, EventDispatcher } = require('../events');
+const MessageDisplayedEvent = require('./events/messageDisplayedEvent');
 
 describe('Events tests', () => {
 
@@ -169,9 +173,21 @@ describe('Events tests', () => {
             done();
         });
 
-        // it('Should register publish a event', (done) => {
-        //     dispatcher.publish('messageDisplayedEvent', handler);
-        // });
+        it('Should register publish a event', (done) => {
+            const spy = sinon.spy(dispatcher, 'publish');
+            const spyHandler1 = sinon.spy(handler1, 'handle');
+            const spyHandler2 = sinon.spy(handler2, 'handle');
+            const spyHandler3 = sinon.spy(handler3, 'handle');
 
+            dispatcher.publish({ type: 'messageDisplayedEvent' });
+            dispatcher.publish({ type: 'messageClearedEvent' });
+
+            spy.should.have.been.calledTwice;
+            spyHandler1.should.been.calledOnce;
+            spyHandler2.should.been.calledOnce;
+            spyHandler3.should.been.calledTwice;
+
+            done();
+        });
     });
 });

@@ -17,7 +17,7 @@ module.exports = class EventDispatcher extends EventBus {
         return this;
     }
     publish(event) {
-        let handlers = this._handlers.get(event.type);
+        let handlers = this._handlers.get(event.type) || [];
         handlers.forEach((handler) => {
             handler.handle(event);
         }, this);
