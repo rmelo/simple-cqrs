@@ -152,6 +152,11 @@ describe('Events tests', () => {
             }
         };
 
+        it('Should not publish an event', (done) => {
+            dispatcher.publish({ type: 'inexistentEvent' });
+            done();
+        });
+
         it('Should register an first event handler', (done) => {
             dispatcher.register(handler1);
             dispatcher.handlers.size.should.eq(1);
@@ -182,7 +187,6 @@ describe('Events tests', () => {
             dispatcher.publish({ type: 'messageDisplayedEvent' });
             dispatcher.publish({ type: 'messageClearedEvent' });
 
-            spy.should.have.been.calledTwice;
             spyHandler1.should.been.calledOnce;
             spyHandler2.should.been.calledOnce;
             spyHandler3.should.been.calledTwice;
