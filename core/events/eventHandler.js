@@ -18,6 +18,7 @@ module.exports = class EventHandler {
 
         this._handlers.set(event, handlers);
         this._events.push(event);
+        
         return this;
     }
     handle(event) {

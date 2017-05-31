@@ -1,7 +1,7 @@
 'use strict';
 
 const chai = require('chai');
-const { Event, EventFactory, EventBus, EventHandler } = require('../events');
+const { Event, EventFactory, EventBus, EventHandler, EventDispatcher } = require('../events');
 const MessageDisplayedEvent = require('./events/messageDisplayedEvent');
 
 chai.should();
@@ -109,5 +109,69 @@ describe('Events tests', () => {
             bus.publish({});
             done();
         });
+    });
+
+    describe('EventDispatcher tests', () => {
+
+        let result1 = false;
+        let result2 = false;
+        let result3 = false;
+
+        const dispatcher = new EventDispatcher();
+        const handler1 = new class Handler extends EventHandler {
+            constructor() {
+                super();
+                this.register('messageDisplayedEvent', (event) => {
+                    result1 = true;
+                });
+            }
+        };
+
+        const handler2 = new class Handler extends EventHandler {
+            constructor() {
+                super();
+                this.register('messageDisplayedEvent', (event) => {
+                    result2 = true;
+                });
+            }
+        };
+
+        const handler3 = new class Handler extends EventHandler {
+            constructor() {
+                super();
+                this.register('messageDisplayedEvent', (event) => {
+                    result2 = true;
+                })
+                this.register('messageClearedEvent', (event) => {
+                    result3 = true;
+                });
+            }
+        };
+
+        it('Should register an first event handler', (done) => {
+            dispatcher.register(handler1);
+            dispatcher.handlers.size.should.eq(1);
+            dispatcher.handlers.get('messageDisplayedEvent').should.lengthOf(1);
+            done();
+        });
+
+        it('Should register an second event handler', (done) => {
+            dispatcher.register(handler2);
+            dispatcher.handlers.size.should.eq(1);
+            dispatcher.handlers.get('messageDisplayedEvent').should.lengthOf(2);
+            done();
+        });
+
+        it('Should register the last event handler with multiple functions', (done) => {
+            dispatcher.register(handler3);
+            dispatcher.handlers.size.should.eq(2);
+            dispatcher.handlers.get('messageDisplayedEvent').should.lengthOf(3);
+            done();
+        });
+
+        // it('Should register publish a event', (done) => {
+        //     dispatcher.publish('messageDisplayedEvent', handler);
+        // });
+
     });
 });
