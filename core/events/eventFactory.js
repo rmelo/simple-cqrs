@@ -1,9 +1,9 @@
-'use strict';
+'use strict'
 
-const MessageFactory = require('../messageFactory');
+const MessageFactory = require('../messageFactory')
 
 module.exports = class EventFactory extends MessageFactory {
-    constructor(eventsPath = './events/') {
-        super(eventsPath);
-    }
+	constructor(eventsPath = './events/') {
+		super(eventsPath)
+	}
 }

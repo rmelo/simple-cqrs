@@ -1,35 +1,41 @@
 {
-  "name": "simple-cqrs",
-  "version": "1.1.1",
-  "engines": {
-    "node": ">=6.5.0"
-  },
-  "description": "A simple CQRS implementation for node.",
-  "main": "index.js",
-  "scripts": {
-    "test": "node_modules/.bin/mocha **/*.spec.js",
-    "cover": "node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha -- -R spec **/*.spec.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/rmelo/simple-cqrs.git"
-  },
-  "keywords": [
-    "CQRS"
-  ],
-  "author": "Rodrigo Melo",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/rmelo/simple-cqrs/issues"
-  },
-  "homepage": "https://github.com/rmelo/simple-cqrs#readme",
-  "devDependencies": {
-    "chai": "^3.5.0",
-    "chai-spies": "^0.7.1",
-    "coveralls": "^2.13.1",
-    "istanbul": "^0.4.5",
-    "mocha": "^3.4.1",
-    "sinon": "^2.3.2",
-    "sinon-chai": "^2.10.0"
-  }
+	"name": "simple-cqrs",
+	"version": "1.1.1",
+	"engines": {
+		"node": ">=6.5.0"
+	},
+	"description": "A simple CQRS implementation for node.",
+	"main": "index.js",
+	"scripts": {
+		"lint": "./node_modules/.bin/eslint ./core/**/*.js ./index.js",
+		"test": "node_modules/.bin/mocha **/*.spec.js",
+		"cover": "node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha -- -R spec **/*.spec.js",
+		"pretest": "npm run lint"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/rmelo/simple-cqrs.git"
+	},
+	"keywords": [
+		"CQRS"
+	],
+	"author": "Rodrigo Melo",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/rmelo/simple-cqrs/issues"
+	},
+	"homepage": "https://github.com/rmelo/simple-cqrs#readme",
+	"devDependencies": {
+		"chai": "^3.5.0",
+		"chai-spies": "^0.7.1",
+		"coveralls": "^2.13.1",
+		"eslint": "^3.19.0",
+		"eslint-config-standard": "^10.2.1",
+		"eslint-plugin-promise": "^3.5.0",
+		"eslint-plugin-standard": "^3.0.1",
+		"istanbul": "^0.4.5",
+		"mocha": "^3.4.1",
+		"sinon": "^2.3.2",
+		"sinon-chai": "^2.10.0"
+	}
 }

@@ -8,6 +8,7 @@ Simple, small and flexible CQRS for [node](http://nodejs.org).
 [![Downloads][downloads-image]][npm-url]
 [![Build Status][travis-image]][travis-url]
 [![Coverage Status][coveralls-image]][coveralls-url]
+[![Known Vulnerabilities][snyk-image]][snyk-url]
 
 ## Status
 
@@ -138,3 +139,6 @@ That's it for all.
 [npm-url]: https://npmjs.org/package/simple-cqrs
 [downloads-image]: http://img.shields.io/npm/dm/simple-cqrs.svg
 [npm-image]: http://img.shields.io/npm/v/simple-cqrs.svg
+
+[snyk-image]: https://snyk.io/test/github/rmelo/simple-cqrs/badge.svg
+[snyk-url]: https://snyk.io/test/github/rmelo/simple-cqrs

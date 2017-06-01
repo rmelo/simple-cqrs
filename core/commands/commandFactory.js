@@ -1,9 +1,9 @@
-'use strict';
+'use strict'
 
-const MessageFactory = require('../messageFactory');
+const MessageFactory = require('../messageFactory')
 
 module.exports = class CommandFactory extends MessageFactory {
-    constructor(commandsPath = './commands/') {
-        super(commandsPath);
-    }
+	constructor(commandsPath = './commands/') {
+		super(commandsPath)
+	}
 }
