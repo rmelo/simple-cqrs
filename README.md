@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/rmelo/simple-cqrs/master/assets/logo-md.png" >
+<img src="https://raw.githubusercontent.com/rmelo/simple-cqrs/master/assets/logo-md.png" width="280" >
 
 Simple, small and flexible CQRS for [node](http://nodejs.org).
 
