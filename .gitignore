@@ -60,3 +60,5 @@ typings/
 #Utils commands
 .commands.md
 
+.vscode
+
