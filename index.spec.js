@@ -55,7 +55,7 @@ describe('App tests', () => {
 	})
 
 	it('Should change the event bus', (done) => {
-		app.useCommandBus(new EventDispatcher())
+		app.useEventBus(new EventDispatcher())
 		done()
 	})
 
