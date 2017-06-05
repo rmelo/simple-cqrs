@@ -4,4 +4,4 @@ coverage
 .vscode
 .commands.md
 **/test
-**/*.spec
+**/*.spec.js
