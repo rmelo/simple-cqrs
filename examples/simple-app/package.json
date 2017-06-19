@@ -9,7 +9,7 @@
   "keywords": [],
   "author": "Rodrigo Melo <rdg.melo@gmail.com>",
   "license": "ISC",
-  "dependencies": {
-    "simple-cqrs": "^1.2.3"
+  "devDependencies": {
+    "simple-cqrs": "^2.0.0"
   }
 }
