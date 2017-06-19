@@ -27,14 +27,14 @@ class App {
 	useEventBus(eventBus) {
 		this._eventBus = eventBus
 	}
-	useEventHandler(handler) {
-		this._eventBus.register(handler)
+	useEventHandler(handler, events) {
+		this._eventBus.register(handler, events)
 	}
 	useCommandHandler(type, handler) {
 		this._commandBus.register(type, handler)
 	}
 	send(command) {
-		this._commandBus.send(command)
+		return this._commandBus.send(command)
 	}
 	publish(event) {
 		this._eventBus.publish(event)

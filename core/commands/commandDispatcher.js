@@ -22,12 +22,12 @@ module.exports = class CommandDispatcher extends CommandBus {
 		}
 	}
 	send(command) {
-		const defination = this._handlers.get(command.type)
-		if (typeof defination === 'object') {
-			const handler = defination.factory()
-			handler.handle(command)
-		} else if (typeof defination === 'function') {
-			defination(command)
+		const handler = this._handlers.get(command.type)
+		if (typeof handler === 'object') {
+			const instance = handler.factory()
+			return instance.handle(command)
+		} else if (typeof handler === 'function') {
+			return handler(command)
 		} else {
 			throw new Error(`There's no handler registered for command ${command.type}`)
 		}

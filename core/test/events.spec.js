@@ -1,4 +1,5 @@
 /* global describe it */
+
 'use strict'
 
 const
@@ -134,6 +135,9 @@ describe('Events tests', () => {
 			}
 		}
 
+		const spyFunc1 = sinon.spy()
+		const spyFunc2 = sinon.spy()
+
 		it('Should not publish an event', (done) => {
 			dispatcher.publish({ type: 'inexistentEvent' })
 			done()
@@ -153,14 +157,37 @@ describe('Events tests', () => {
 			done()
 		})
 
-		it('Should register the last event handler with multiple functions', (done) => {
+		it('Should register the third event handler with multiple functions', (done) => {
 			dispatcher.register(handler3)
 			dispatcher.handlers.size.should.eq(2)
 			dispatcher.handlers.get('messageDisplayedEvent').should.lengthOf(3)
 			done()
 		})
 
+		it('Should register a handler as a function with one event', (done) => {
+			dispatcher.register((event) => {
+				spyFunc1(event)
+			}, 'messageDisplayedEvent')
+			dispatcher.handlers.get('messageDisplayedEvent').should.lengthOf(4)
+			done()
+		})
+
+		it('Should register a handler as a function with multiple events', (done) => {
+			dispatcher.register((event) => {
+				spyFunc2(event)
+			}, ['messageDisplayedEvent', 'messageClearedEvent'])
+			done()
+		})
+
+		it('Should register a handler as a string and do nothing', (done) => {
+			(() => {
+				dispatcher.register('handler', 'messageDisplayedEvent1')
+			}).should.throw(Error)
+			done()
+		})
+
 		it('Should register publish a event', (done) => {
+
 			const spyHandler1 = sinon.spy(handler1, 'handle')
 			const spyHandler2 = sinon.spy(handler2, 'handle')
 			const spyHandler3 = sinon.spy(handler3, 'handle')
@@ -171,6 +198,8 @@ describe('Events tests', () => {
 			spyHandler1.should.been.calledOnce
 			spyHandler2.should.been.calledOnce
 			spyHandler3.should.been.calledTwice
+			spyFunc1.should.been.calledOnce
+			spyFunc2.should.been.calledTwice
 
 			done()
 		})

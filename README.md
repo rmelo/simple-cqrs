@@ -10,33 +10,47 @@ Simple, small and flexible CQRS for [node](http://nodejs.org).
 [![Coverage Status][coveralls-image]][coveralls-url]
 [![Known Vulnerabilities][snyk-image]][snyk-url]
 
-## Status
-
-Including events module... finish this week!
-
 ## Installation
 
 ```bash
 $ npm install simple-cqrs
 ```
 
-## Quick Start
+## <a name="quickstart"></a>Quick Start 
 
 ```js
-const {CommandDispatcher} = require('simple-cqrs');
+const cqrs = require('simple-cqrs')
 
-const dispatcher = new CommandDispacther();
+const app = cqrs.createApp()
 
-disptacher.register('showMessageCommand', (command)=>{
-    console.log(command.message);
-});
+//Uses a function as a command handler. There's others way to do that using functions or objects.
+app.useCommandHandler('showMessageCommand', (command) => {
+	console.log(`Command ${command.type} handled`)
+	app.publish({ type: 'messageDisplayedEvent', message: command.message })
+})
 
-dispatcher.send({type:'showMessageCommand', message:'Hello World!'});
-//Prints: Hello World!
+//Uses a function as a event handler. There's others way to do that using functions or objects.
+app.useEventHandler((event) => {
+	console.log(`Message ${event.message} displayed.`)
+}, 'messageDisplayedEvent')
 
+//Sends a command
+app.send({ type: 'showMessageCommand', message: 'Hello World!' })
+
+/* The code above, prints:
+* 1. Command showMessageCommand handled
+* 2. Message Hello World! displayed.
+*/
 ```
 
-## Docs
+Download the example at [examples/simple-app](examples/simple-app)
+
+## Introduction
+
+There's two ways to use Simple-CQRS library. The easier, showed in [Quick Start section](#quickstart) above and the flexible that will be show in the [Docs](#docs) section. both use a set of classes included in core module, but the easier uses a mediator `cqrs.createApp()` to coordinate the access of those core classes.
+
+
+## <a name="docs"></a>Docs
 ### Commands
 
 You can use a json-based style command or a type-based command, the only requirement is to set the type of command:
@@ -49,7 +63,7 @@ const command = {type:'showMessageCommand', message:'Hello World!'};
 When you use type-based command, you don't have to set the type manually. It's automatically set by Command class. The type will be the name of the subclass.
 ```js
 //type-based using Ecma6
-const Command = require('simple-cqrs').Command;
+const { Command } = require('simple-cqrs')
 
 class ShowMessageCommand extends Command{
   get message(){return this._message;}
@@ -59,32 +73,17 @@ class ShowMessageCommand extends Command{
 //the type of above class is "ShowMessageCommand"
 ```
 
-### CommandFactory
-
-You can convert a json-based command to a type-based command using the CommandFactory class. Sometimes it's needed when you receive a serialized command from a channel like a service bus.
-
-```js
-const CommandFactory = require('simple-cqrs').CommandFactory;
-
-const factory = new CommandFactory();
-bus.onReceiveMessage((message)=>{
-  const command = factory.create(message);
-});
-``` 
-
-The CommandFactory class loads the commands dynamically from the path specified in the constructor. The default path is "./commands". But you can change it.
-
-### CommandBus and CommandDispatcher
+### CommandDispatcher as a default CommandBus
 
 A command bus is responsible to routing the command to it's handler which will execute it.
 The CommandBus class is just an abstraction of an command bus and musn't be instantiated.
 
 You can implement a command bus by extending it. e.g: You can send a command through an Azure Service Bus Queue following this documentation: [How to use Service Bus queues](https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-nodejs-how-to-use-queues)
 
-If you just want to handle/execute a command in the same proccess, you can use the CommandDispatcher implementation:
+If you just want to handle/execute a command in the same proccess, you can use the CommandDispatcher class included in the core:
 
 ```js
-const CommandDispatcher = require('simple-cqrs').CommandDispatcher;
+const { CommandDispatcher } = require('simple-cqrs')
 const dispatcher = new CommandDispatcher();
 ```  
 
@@ -98,9 +97,10 @@ dispatcher.register('ShowMessageCommand', (command)=>{
 });
 
 //Registering a command handler as a handler of the ShowMessageCommand. 
-dispatcher.register('ShowMessageCommand', {factory:()=>{
+dispatcher.register('ShowMessageCommand', {factory:()=> {
   return new ShowMessageCommandHandler();
-}});
+	}
+});
 ```
 
 You can't register a command twice. But you can register multiple commands for a handler:
@@ -120,6 +120,69 @@ dispatcher.register(['ShowMessageCommand','ClearConsoleCommand'], (command)=>{
   }
 });
 ```
+
+### Events
+
+Just as commands, events also can use a json-based style or a type-based, the only requirement is to set the type of event:
+
+```js
+//json-based
+const event = {type:'messageDisplayedEvent', message:'Hello World!'};
+```
+
+When you use type-based, you don't have to set the type manually. It's automatically set by Event class. The type will be the name of the subclass.
+```js
+//type-based using Ecma6
+const { Event } = require('simple-cqrs')
+
+class MessageDisplayedEvent extends Event {
+  get message(){return this._message;}
+  set message(value){this._message=value;}
+}
+
+//the type of above class is "MessageDisplayedEvent"
+```
+
+### EventDispatcher as a default EventBus
+
+Event bus is responsible to distributes the events to their handlers/listeners. It's a publish/subscribe communication pattern. 
+The EventBus class is just an abstraction of an event bus and musn't be instantiated.
+
+You can implement your own event bus by extending the EventBus class. Just like CommanbBus, you can listen a infrastructure messaging component as a Azure Service Bus or RabbitMQ.
+
+If you just want to handle/listen events in the same proccess, you can use the EventDispatcher class included in the core.
+
+```js
+const { EventDispatcher } = require('simple-cqrs')
+const dispatcher = new EventDispatcher();
+```  
+
+The first thing you must do is register a handler for an event. 
+You can register a function to handles the events, or a event handler type-based:
+
+```js
+//Registering a function as a handler of the MessageDisplayedEvent. 
+dispatcher.register((event)=>{
+  console.log(event);
+}, 'MessageDisplayedEvent');
+
+//Registering a event handler as a handler of the MessageDisplayedEvent. 
+const MessageDisplayedEventHandler = class MessageDisplayedEventHandler extends EventHandler {
+	constructor() {
+		super()
+		this.register('MessageDisplayedEvent', handler)
+	}
+	handle(event) {
+		console.log(`Event ${event.type} handled`)
+		}
+}
+
+const eventHandler = new MessageDisplayedEventHandler()
+
+dispatcher.register(eventHandler, 'MessageDisplayedEvent');
+
+```
+
 
 ## Tests
 
