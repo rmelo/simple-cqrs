@@ -29,12 +29,16 @@ describe('Events tests', () => {
 
 			const creationDate = event
 
+			event.version.should.eq(0)
 			event.type.should.be.eq('MessageDisplayedEvent')
 
 			event.message = 'hello!'
 			event.type = 'messageDisplayedEvent'
 			event.date = new Date()
+			event.version = 1
 
+
+			event.version.should.eq(1)
 			event.type.should.be.eq('messageDisplayedEvent')
 			event.date.should.not.be.eq(creationDate)
 

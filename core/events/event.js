@@ -7,6 +7,7 @@ module.exports = class Event {
 			throw new TypeError('Event is abstract!')
 		this._type = this.constructor.name
 		this._date = new Date()
+		this._version = 0
 	}
 
 	set type(value) { this._type = value }
