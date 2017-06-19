@@ -4,7 +4,7 @@
 const
 	chai = require('chai'),
 	sinon = require('sinon'),
-	{ EventHandler, CommandDispatcher, EventDispatcher, CommandFactory } = require('./index.js')
+	{ EventHandler, CommandDispatcher, EventDispatcher } = require('./index.js')
 
 chai.should()
 chai.use(require('sinon-chai'))
@@ -50,7 +50,7 @@ describe('App tests', () => {
 	})
 
 	it('Should change the command bus', (done) => {
-		app.useCommandBus(new CommandDispatcher(new CommandFactory()))
+		app.useCommandBus(new CommandDispatcher())
 		done()
 	})
 

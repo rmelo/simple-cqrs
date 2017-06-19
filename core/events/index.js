@@ -2,7 +2,6 @@
 
 module.exports = {
 	Event: require('./event'),
-	EventFactory: require('./eventFactory'),
 	EventBus: require('./eventBus'),
 	EventHandler: require('./eventHandler'),
 	EventDispatcher: require('./eventDispatcher')

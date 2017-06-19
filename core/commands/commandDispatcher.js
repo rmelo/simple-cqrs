@@ -1,15 +1,12 @@
 'use strict'
 
-const
-	CommandFactory = require('./commandFactory'),
-	CommandBus = require('./commandBus')
+const CommandBus = require('./commandBus')
 
 
 module.exports = class CommandDispatcher extends CommandBus {
-	constructor(commandFactory = new CommandFactory()) {
+	constructor() {
 		super()
 		this._handlers = new Map()
-		this._commandFactory = commandFactory
 	}
 	register(type, handler) {
 		if (type.constructor === String) {

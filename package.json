@@ -7,7 +7,7 @@
   "description": "A simple CQRS implementation for node.",
   "main": "index.js",
   "scripts": {
-    "lint": "./node_modules/.bin/eslint ./core/**/*.js ./index.js",
+    "lint": "./node_modules/.bin/eslint ./{core,utils}/**/*.js ./index.js",
     "test": "node_modules/.bin/mocha **/*.spec.js",
     "cover": "node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha -- -R spec **/*.spec.js",
     "pretest": "npm run lint"

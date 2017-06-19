@@ -2,7 +2,7 @@
 'use strict'
 
 const chai = require('chai')
-const { Command, CommandFactory, CommandDispatcher, CommandBus } = require('../commands')
+const { Command, CommandDispatcher, CommandBus } = require('../commands')
 
 chai.should()
 
@@ -28,28 +28,6 @@ describe('Commands tests', () => {
 			done()
 		})
 
-	})
-
-	describe('CommandFactory tests', () => {
-
-		it('Should create a showMessageCommand and set its properties', (done) => {
-			const factory = new CommandFactory(__dirname + '/commands')
-			const command = factory.create(showMessageCommandType, { message: 'hello!', anotherProperty: 'hi!' })
-			command.type.should.eq(showMessageCommandType)
-			command.message.should.eq('hello!')
-			command.message = 'world!'
-			command.message.should.eq('world!')
-			done()
-		})
-
-		it('Should throw a TypeError when an invalid command', (done) => {
-			(() => {
-				const factory = new CommandFactory((__dirname + '/commands'))
-				const command = factory.create('invalidCommand')
-				command
-			}).should.throw(Error)
-			done()
-		})
 	})
 
 	describe('CommandDispatcher tests', () => {

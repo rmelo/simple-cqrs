@@ -1,18 +1,16 @@
 'use strict'
 
-const { Command, CommandFactory, CommandDispatcher, CommandBus } = require('./core/commands')
-const { Event, EventFactory, EventHandler, EventBus, EventDispatcher } = require('./core/events')
+const { Command, CommandDispatcher, CommandBus } = require('./core/commands')
+const { Event, EventHandler, EventBus, EventDispatcher } = require('./core/events')
 
 module.exports = {
 	createApp: () => {
 		return new App()
 	},
 	Command,
-	CommandFactory,
 	CommandDispatcher,
 	CommandBus,
 	Event,
-	EventFactory,
 	EventHandler,
 	EventBus,
 	EventDispatcher
@@ -20,7 +18,7 @@ module.exports = {
 
 class App {
 	constructor() {
-		this._commandBus = new CommandDispatcher(new CommandFactory())
+		this._commandBus = new CommandDispatcher()
 		this._eventBus = new EventDispatcher()
 	}
 	useCommandBus(commandBus) {

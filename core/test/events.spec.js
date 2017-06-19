@@ -8,7 +8,7 @@ const
 chai.should()
 chai.use(require('sinon-chai'))
 
-const { Event, EventFactory, EventBus, EventHandler, EventDispatcher } = require('../events')
+const { Event, EventBus, EventHandler, EventDispatcher } = require('../events')
 const MessageDisplayedEvent = require('./events/messageDisplayedEvent')
 
 describe('Events tests', () => {
@@ -38,27 +38,6 @@ describe('Events tests', () => {
 			event.type.should.be.eq('messageDisplayedEvent')
 			event.date.should.not.be.eq(creationDate)
 
-			done()
-		})
-	})
-
-	describe('EventFactory tests', () => {
-
-		const factory = new EventFactory(__dirname + '/events')
-
-		it('Should create an event and set its properties', (done) => {
-			const event = factory.create('messageDisplayedEvent', { version: 1, message: 'Hello!' })
-			event.version.should.eq(1)
-			event.message.should.eq('Hello!')
-			event.type.should.eq('MessageDisplayedEvent')
-			done()
-		})
-
-		it('Should throw a TypeError when an invalid event', (done) => {
-			(() => {
-				const command = factory.create('invalidEvent')
-				command
-			}).should.throw(Error)
 			done()
 		})
 	})
