@@ -38,7 +38,7 @@ Download the example at [examples/simple-app](examples/simple-app)
 
 ## Introduction
 
-There's two ways to use Simple-CQRS library. The easier, showed in [Quick Start section](#quickstart) above and the flexible that will be show in the [Docs](#docs) section. both use a set of classes included in core module, but the easier uses a mediator `cqrs.createApp()` to coordinate the access of those core classes.
+There are two ways to use Simple-CQRS library. The easier, showed in [Quick Start section](#quickstart) above and the flexible that will be show in the [Docs](#docs) section. Both use a set of classes included in core module, but the easier uses a mediator `cqrs.createApp()` to coordinate the access of those core classes.
 
 ## Contents
 
@@ -75,8 +75,8 @@ class ShowMessageCommand extends Command{
 
 ### <a name="commandbus"></a>CommandDispatcher as a default CommandBus
 
-A command bus is responsible to routing the command to it's handler which will execute it.
-The CommandBus class is just an abstraction of an command bus and musn't be instantiated.
+A command bus is responsible for routing the command to the handler that will execute it.
+The CommandBus class is just an abstraction of a command bus and mustn't be instantiated.
 
 You can implement a command bus by extending it. e.g: You can send a command through an Azure Service Bus Queue following this documentation: [How to use Service Bus queues](https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-nodejs-how-to-use-queues)
 
@@ -88,7 +88,7 @@ const dispatcher = new CommandDispatcher();
 ```  
 
 The first thing you must do is register a handler for a command. 
-You can register a function to handles the command, or a command handler type-based:
+You can register a function to handle the command, or a command handler type-based:
 
 ```js
 //Registering a function as a handler of the ShowMessageCommand. 
@@ -145,10 +145,10 @@ class MessageDisplayedEvent extends Event {
 
 ### <a name="eventbus"></a>EventDispatcher as a default EventBus
 
-Event bus is responsible to distributes the events to their handlers/listeners. It's a publish/subscribe communication pattern. 
-The EventBus class is just an abstraction of an event bus and musn't be instantiated.
+Event bus is responsible to distribute the events to their handlers/listeners. It's a publish/subscribe communication pattern. 
+The EventBus class is just an abstraction of an event bus and mustn't be instantiated.
 
-You can implement your own event bus by extending the EventBus class. Just like CommanbBus, you can listen a infrastructure messaging component as a Azure Service Bus or RabbitMQ.
+You can implement your own event bus by extending the EventBus class. Just like CommanbBus, you can listen an infrastructure messaging component as an Azure Service Bus or RabbitMQ.
 
 If you just want to handle/listen events in the same proccess, you can use the EventDispatcher class included in the core.
 
