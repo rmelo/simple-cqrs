@@ -24,8 +24,12 @@ module.exports = class CommandDispatcher extends CommandBus {
 	send(command) {
 		const handler = this._handlers.get(command.type)
 		if (typeof handler === 'object') {
-			const instance = handler.factory()
-			return instance.handle(command)
+			if (handler.factory) {
+				const instance = handler.factory()
+				if (instance)
+					return instance.handle(command)
+				throw new Error('The factory function must exists and returns a handler')
+			}
 		} else if (typeof handler === 'function') {
 			return handler(command)
 		} else {

@@ -90,6 +90,22 @@ describe('Commands tests', () => {
 			done()
 		})
 
+		it('Should throw an Error when try to dispatch a command without a factory function returns a handler', (done) => {
+
+			dispatcher.register('withoutReturnAHandler', {
+				factory: () => { new class showMessageCommandHandler { handle(command) { command } } }
+			})
+
+			dispatcher.register('withoutFactoryHandler', {})
+
+			let func = (() => { dispatcher.send({ type: 'withoutReturnAHandler' }) }).should.throw(Error)
+			let func2 = (() => { dispatcher.send({ type: 'withoutFactoryHandler' }) })
+			func2()
+			func
+
+			done()
+		})
+
 	})
 
 	describe('CommandBus tests', () => {
