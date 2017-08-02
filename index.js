@@ -3,20 +3,7 @@
 const { Command, CommandDispatcher, CommandBus } = require('./core/commands')
 const { Event, EventHandler, EventBus, EventDispatcher } = require('./core/events')
 
-module.exports = {
-	createApp: () => {
-		return new App()
-	},
-	Command,
-	CommandDispatcher,
-	CommandBus,
-	Event,
-	EventHandler,
-	EventBus,
-	EventDispatcher
-}
-
-class App {
+const App = class App {
 	constructor() {
 		this._commandBus = new CommandDispatcher()
 		this._eventBus = new EventDispatcher()
@@ -39,4 +26,19 @@ class App {
 	publish(event) {
 		this._eventBus.publish(event)
 	}
+}
+
+
+module.exports = {
+	createApp: () => {
+		return new App()
+	},
+	App,
+	Command,
+	CommandDispatcher,
+	CommandBus,
+	Event,
+	EventHandler,
+	EventBus,
+	EventDispatcher
 }
