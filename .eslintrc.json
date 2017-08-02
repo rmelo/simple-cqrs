@@ -1,28 +1,29 @@
 {
-	"env": {
-		"es6": true,
-		"node": true
-	},
-	"extends": "eslint:recommended",
-	"rules": {
-		"indent": [
-			"error",
-			"tab"
-		],
-		"linebreak-style": [
-			"error",
-			"unix"
-		],
-		"quotes": [
-			"error",
-			"single"
-		],
-		"semi": [
-			"error",
-			"never"
-		],
-		"no-unused-vars": [
-			"warn"
-		]
-	}
+  "env": {
+    "es6": true,
+    "node": true,
+    "mocha": true
+  },
+  "extends": "standard",
+  "rules": {
+    "no-console": 0,
+    "indent": [
+      "error",
+      2
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "semi": [
+      "error",
+      "never"
+    ],
+    "no-unused-vars": [
+      "warn"
+    ],
+    "one-var": [
+      "off"
+    ]
+  }
 }

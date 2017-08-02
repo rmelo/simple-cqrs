@@ -8,8 +8,8 @@
   "main": "index.js",
   "scripts": {
     "lint": "./node_modules/.bin/eslint ./{core,utils}/**/*.js ./index.js",
-    "test": "node_modules/.bin/mocha **/*.spec.js",
-    "cover": "node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha -- -R spec **/*.spec.js",
+    "test": "./node_modules/.bin/mocha **/*.spec.js",
+    "cover": "./node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha -- -R spec **/*.spec.js",
     "pretest": "npm run lint"
   },
   "repository": {
@@ -29,8 +29,10 @@
     "chai": "^3.5.0",
     "chai-spies": "^0.7.1",
     "coveralls": "^2.13.1",
-    "eslint": "^3.19.0",
+    "eslint": "^4.3.0",
     "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.1.1",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
     "istanbul": "^0.4.5",
