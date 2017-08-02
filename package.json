@@ -1,6 +1,6 @@
 {
   "name": "simple-cqrs",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "engines": {
     "node": ">=6.5.0"
   },
