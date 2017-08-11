@@ -16,20 +16,12 @@ module.exports = class EventDispatcher extends EventBus {
   * @param {*} events 
 */
   register (handler, events) {
-    const setEvent = (handler, event) => {
-      let handlers = this._handlers.get(event) || []
-      handlers.push(handler)
-      this._handlers.set(event, handlers)
-    }
-
     if (typeof handler === 'object') {
-      handler.events.forEach((event) => {
-        setEvent(handler, event)
-      })
+      this.setHandlerEvents(handler, events)
     } else if (typeof handler === 'function' && events) {
       events = Object.prototype.toString.call(events).indexOf('Array') > -1 ? events : [events]
       events.forEach((event) => {
-        setEvent(handler, event)
+        this.setEvent(handler, event)
       })
     } else {
       throw new Error('Handler must be provided as a object or as a function.')
@@ -37,9 +29,34 @@ module.exports = class EventDispatcher extends EventBus {
 
     return this
   }
+  setEvent (handler, event) {
+    let handlers = this._handlers.get(event) || []
+    handlers.push(handler)
+    this._handlers.set(event, handlers)
+  }
+
+  setHandlerEvents (handler, events) {
+    if (events) {
+      if (events === '*') {
+        this.setEvent(handler, events)
+      } else {
+        events.forEach(event => this.setEvent(handler, event))
+      }
+    } else {
+      handler.events.forEach((event) => {
+        this.setEvent(handler, event)
+      })
+    }
+  }
 
   publish (event) {
+    const type = Object.prototype.toString.apply(event)
+
+    if (type.indexOf('Object') === -1) throw new Error('The event must be an object with type field')
+    if (!event.type) throw new Error('The type field must be non-null')
+
     let handlers = this._handlers.get(event.type) || []
+    handlers = handlers.concat(this._handlers.get('*') || [])
     handlers.forEach((handler) => {
       if (typeof handler === 'object') { handler.handle(event) } else { handler(event) }
     }, this)

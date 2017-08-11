@@ -177,6 +177,35 @@ describe('Events tests', () => {
       done()
     })
 
+    it('Should register multiple functions to one event', (done) => {
+      let count = 0
+      dispatcher.register((event) => { count++ }, 'event1')
+      dispatcher.register((event) => { count++ }, 'event1')
+      dispatcher.register((event) => { count++ }, 'event1')
+      dispatcher.publish({ type: 'event1' })
+      count.should.eq(3)
+      done()
+    })
+
+    it('Should register multiple handlers to one event', (done) => {
+      const hitsSpy1 = sinon.spy()
+      const hitsSpy2 = sinon.spy()
+      const mHandler1 = new class Handler extends EventHandler {
+        handle (event) { hitsSpy1(event) }
+      }()
+      const mHandler2 = new class Handler extends EventHandler {
+        handle (event) { hitsSpy2(event) }
+      }()
+      dispatcher.register(mHandler1, '*')
+      dispatcher.register(mHandler2, '*')
+      dispatcher.publish({ type: 'm_event1' })
+      dispatcher.publish({ type: 'm_event2' })
+      dispatcher.publish({ type: 'm_event3' })
+      hitsSpy1.should.been.calledThrice
+      hitsSpy2.should.been.calledThrice
+      done()
+    })
+
     it('Should register publish a event', (done) => {
       const spyHandler1 = sinon.spy(handler1, 'handle')
       const spyHandler2 = sinon.spy(handler2, 'handle')

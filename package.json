@@ -8,7 +8,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "./node_modules/.bin/eslint ./{core,utils}/**/*.js ./index.js",
-    "test": "./node_modules/.bin/mocha **/*.spec.js",
+    "test": "./node_modules/.bin/mocha '{,!(node_modules)}/{,!(node_modules)}/*.spec.js'",
     "cover": "./node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha -- -R spec **/*.spec.js",
     "pretest": "npm run lint"
   },
