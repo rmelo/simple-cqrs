@@ -36,6 +36,11 @@ app.send({ type: 'showMessageCommand', message: 'Hello World!' })
 
 Download the example at [examples/simple-app](examples/simple-app)
 
+## Last Update
+
+The last update **2.1.0** includes the possibility to register one handler to multiple events. 
+Example: LogginEventHandler should handle all events of stream
+
 ## Introduction
 
 There are two ways to use Simple-CQRS library. The easier, showed in [Quick Start section](#quickstart) above and the flexible that will be show in the [Docs](#docs) section. Both use a set of classes included in core module, but the easier uses a mediator `cqrs.createApp()` to coordinate the access of those core classes.
